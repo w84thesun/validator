@@ -172,6 +172,11 @@ var (
 		"lowercase":            isLowercase,
 		"uppercase":            isUppercase,
 		"datetime":             isDatetime,
+		"gtedfield":            isGteDurationField,
+		"ltedfield":            isLteDurationField,
+		"gtdfield":             isGtDurationField,
+		"ltdfield":             isLtDurationField,
+		"eqdfield":             isEqDurationField,
 	}
 )
 
@@ -2088,4 +2093,114 @@ func isDatetime(fl FieldLevel) bool {
 	}
 
 	panic(fmt.Sprintf("Bad field type %T", field.Interface()))
+}
+
+func isGteDurationField(fl FieldLevel) bool {
+	field := fl.Field()
+	param := fl.Param()
+
+	if field.Type().String() == "time.Duration" {
+		duration, err := time.ParseDuration(param)
+		if err != nil {
+			return false
+		}
+
+		testDuration := time.Duration(field.Int())
+
+		if testDuration >= duration {
+			return true
+		}
+
+		return false
+	}
+
+	return false
+}
+
+func isLteDurationField(fl FieldLevel) bool {
+	field := fl.Field()
+	param := fl.Param()
+
+	if field.Type().String() == "time.Duration" {
+		duration, err := time.ParseDuration(param)
+		if err != nil {
+			return false
+		}
+
+		testDuration := time.Duration(field.Int())
+
+		if testDuration <= duration {
+			return true
+		}
+
+		return false
+	}
+
+	return false
+}
+
+func isGtDurationField(fl FieldLevel) bool {
+	field := fl.Field()
+	param := fl.Param()
+
+	if field.Type().String() == "time.Duration" {
+		duration, err := time.ParseDuration(param)
+		if err != nil {
+			return false
+		}
+
+		testDuration := time.Duration(field.Int())
+
+		if testDuration > duration {
+			return true
+		}
+
+		return false
+	}
+
+	return false
+}
+
+func isLtDurationField(fl FieldLevel) bool {
+	field := fl.Field()
+	param := fl.Param()
+
+	if field.Type().String() == "time.Duration" {
+		duration, err := time.ParseDuration(param)
+		if err != nil {
+			return false
+		}
+
+		testDuration := time.Duration(field.Int())
+
+		if testDuration < duration {
+			return true
+		}
+
+		return false
+	}
+
+	return false
+}
+
+func isEqDurationField(fl FieldLevel) bool {
+	field := fl.Field()
+	param := fl.Param()
+
+	if field.Type().String() == "time.Duration" {
+		duration, err := time.ParseDuration(param)
+		if err != nil {
+			return false
+		}
+
+		testDuration := time.Duration(field.Int())
+
+		if testDuration == duration {
+			return true
+		}
+
+		return false
+	}
+
+	return false
 }
